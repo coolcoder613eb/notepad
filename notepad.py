@@ -39,16 +39,16 @@ class Editor:
 
     def save_text(self):
         try:
-            with open(self.current_file, 'w') as f:
-                f.write(self.ta.get_text())
+            with open(self.current_file, 'wb') as f:
+                f.write(self.ta.get_text().encode('utf-8','ignore'))
             return True
         except:
             return False
 
     def load_text(self):
         try:
-            with open(self.current_file, 'r') as f:
-                text = f.read()
+            with open(self.current_file, 'rb') as f:
+                text = f.read().decode('utf-8','ignore')
                 self.ta.set_text(text)
                 self.last_text = text
                 self.undo_stack.clear()
