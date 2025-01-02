@@ -72,8 +72,8 @@ class SimpleBrowser:
 
         # File list
         self.list = lv.list(self.window)
-        self.list.set_size(int(H_RES * 0.8), int(V_RES * 0.38))
-        self.list.align(lv.ALIGN.TOP_MID, 0, 20)
+        self.list.set_size(int(H_RES * 0.88)-30, int(V_RES * 0.77)-95)
+        self.list.align(lv.ALIGN.CENTER, 0, -10)
         self.list.set_style_bg_color(tulip.pal_to_lv(255), 0)
 
         # Filename input field for save mode
@@ -117,10 +117,11 @@ class SimpleBrowser:
 
         try:
             entries = os.listdir(self.current_path)
-            if self.current_path != '/':
-                entries.append('..')
             # Sort directories first, then files
-            dirs = sorted([e for e in entries if isdir(join(self.current_path, e).replace('//','/'))])
+            dirs = sorted([e for e in entries if isdir(join(self.current_path, e))])
+            if self.current_path != '/':
+                dirs.insert(0,'..')
+
             files = sorted([e for e in entries if isfile(join(self.current_path, e))])
             # Add directories with a "/" suffix
             for d in dirs:
@@ -337,6 +338,8 @@ def run(screen):
             editor.redo()
         elif name == KEYBOARD:
             tulip.keyboard()
+        elif name == EXIT:
+            screen.quit()
 
     def key_handler(key):
         keys = tulip.keys()
